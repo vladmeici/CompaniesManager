@@ -1,22 +1,35 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace CompaniesManager.Models
 {
     public class Company
     {
         [Key]
-        public string Id { get; set; }
+        public Guid Id { get; set; }
         [Required]
+        [DisplayName("Company name")]
         public string CompanyName { get; set; }
 
+        [DisplayName("Contact name")]
         public string ContactName { get; set; }
 
+        [DisplayName("Contact phone number")]
         public string ContactPhoneNumber { get; set; }
 
-        public uint YearsInBusiness { get; set; }
+        [DisplayName("Years in business")]
+        public int YearsInBusiness { get; set; }
 
+        [DisplayName("Contact email")]
         public string ContactEmail { get; set; }
 
-        public uint YearFounded { get; set; }
+        [DisplayName("Year founded")]
+        public int YearFounded { get; set; }
+
+        public override string ToString()
+        {
+            return $"{CompanyName}, {YearsInBusiness}, {ContactName}, {ContactPhoneNumber}, {ContactEmail}";
+        }
     }
 }

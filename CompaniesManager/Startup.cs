@@ -1,16 +1,16 @@
 using CompaniesManager.Models;
+using CompaniesManager.Services.Comparers;
+using CompaniesManager.Services.Delimiters;
+using CompaniesManager.Services.FileExtractors;
+using CompaniesManager.Services.Interfaces;
+using CompaniesManager.Services.Sorters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace CompaniesManager
 {
@@ -27,6 +27,17 @@ namespace CompaniesManager
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration["MilestoneConnectionString"]));
+
+            services.AddSingleton<IDelimiter, CommaDelimiter>();
+            services.AddSingleton<IDelimiter, HashDelimiter>();
+            services.AddSingleton<IDelimiter, HyphenDelimiter>();
+
+            services.AddSingleton<ICompaniesExtractor, TextFileExtractor>();
+            services.AddSingleton<ICompaniesExtractor, ExcelFileExtractor>();
+
+            services.AddSingleton<IComparer<Company>, CompanyNameComparer>();
+            services.AddSingleton<IComparer<Company>, ContactNameComparer>();
+            services.AddSingleton<IComparer<Company>, YearsAndNameComparer>();
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
         }
@@ -55,7 +66,7 @@ namespace CompaniesManager
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Companies}/{action=Index}/{id?}");
             });
         }
     }

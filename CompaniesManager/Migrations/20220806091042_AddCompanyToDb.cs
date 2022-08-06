@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CompaniesManager.Migrations
 {
@@ -10,13 +11,13 @@ namespace CompaniesManager.Migrations
                 name: "Companies",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
+                    Id = table.Column<Guid>(nullable: false),
                     CompanyName = table.Column<string>(nullable: false),
                     ContactName = table.Column<string>(nullable: true),
                     ContactPhoneNumber = table.Column<string>(nullable: true),
-                    YearsInBusiness = table.Column<long>(nullable: false),
+                    YearsInBusiness = table.Column<int>(nullable: false),
                     ContactEmail = table.Column<string>(nullable: true),
-                    YearFounded = table.Column<long>(nullable: false)
+                    YearFounded = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
