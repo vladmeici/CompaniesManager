@@ -37,14 +37,14 @@ namespace CompaniesManager.Controllers
             CompaniesHelper.SortCompanies(companies, _comparers, comparerName);
             ViewData["currentSort"] = comparerName;
 
-            return View("Index", new CompaniesViewModel { Companies = companies, CurrentComparer = comparerName});
+            return View("Index", new CompaniesViewModel { Companies = companies, CurrentComparer = comparerName });
         }
 
         public async Task<FileResult> Export(string comparerName)
         {
             var companies = await _db.Companies.ToListAsync();
 
-            if(!string.IsNullOrEmpty(comparerName))
+            if (!string.IsNullOrEmpty(comparerName))
             {
                 CompaniesHelper.SortCompanies(companies, _comparers, comparerName);
             }

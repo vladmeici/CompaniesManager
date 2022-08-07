@@ -10,32 +10,39 @@ namespace CompaniesManager.Services.Delimiters
 
         public uint SplitLength { get; }
 
-        public HyphenDelimiter()
+        public HyphenDelimiter(uint dataToExtract)
         {
             DelimiterValue = "-";
-            SplitLength = 6;
+            SplitLength = dataToExtract;
         }
 
         public Company ExtractCompanyFrom(string line)
         {
             var lineValues = line.Split(DelimiterValue);
 
-            var companyName = lineValues[0];
-            var yearFounded = lineValues[1];
-            var contactPhoneNumber = lineValues[2];
-            var contactEmail = lineValues[3];
-            var contactName = lineValues[4] + " " + lineValues[5];
 
-            return new Company
+            if (lineValues.Length == SplitLength)
             {
-                Id = Guid.NewGuid(),
-                CompanyName = companyName,
-                YearsInBusiness = -1,
-                YearFounded = Convert.ToInt32(yearFounded),
-                ContactPhoneNumber = contactPhoneNumber,
-                ContactEmail = contactEmail,
-                ContactName = contactName
-            };
+
+                var companyName = lineValues[0];
+                var yearFounded = lineValues[1];
+                var contactPhoneNumber = lineValues[2];
+                var contactEmail = lineValues[3];
+                var contactName = lineValues[4] + " " + lineValues[5];
+
+                return new Company
+                {
+                    Id = Guid.NewGuid(),
+                    CompanyName = companyName,
+                    YearsInBusiness = -1,
+                    YearFounded = Convert.ToInt32(yearFounded),
+                    ContactPhoneNumber = contactPhoneNumber,
+                    ContactEmail = contactEmail,
+                    ContactName = contactName
+                };
+            }
+
+            return null;
         }
 
 

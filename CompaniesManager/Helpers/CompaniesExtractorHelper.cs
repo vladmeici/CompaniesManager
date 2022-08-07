@@ -5,13 +5,13 @@ namespace CompaniesManager.Helpers
 {
     public static class CompaniesExtractorHelper
     {
-        public static ICompaniesExtractor GetCompaniesExtractor(IEnumerable<ICompaniesExtractor> extractors, string fileExtension)
+        public static ICompaniesExtractor GetCompaniesExtractor(IEnumerable<ICompaniesExtractor> extractors, string fileName)
         {
             ICompaniesExtractor foundExtractor = null;
 
             foreach (var extractor in extractors)
             {
-                if (extractor.CanExtract(fileExtension))
+                if (extractor.CanExtract(fileName))
                 {
                     foundExtractor = extractor;
                     break;

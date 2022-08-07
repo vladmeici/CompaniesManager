@@ -1,5 +1,3 @@
-using System;
-
 namespace CompaniesManager.Models
 {
     public class ErrorViewModel

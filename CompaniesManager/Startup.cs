@@ -3,7 +3,6 @@ using CompaniesManager.Services.Comparers;
 using CompaniesManager.Services.Delimiters;
 using CompaniesManager.Services.FileExtractors;
 using CompaniesManager.Services.Interfaces;
-using CompaniesManager.Services.Sorters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -28,9 +27,9 @@ namespace CompaniesManager
         {
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration["MilestoneConnectionString"]));
 
-            services.AddSingleton<IDelimiter, CommaDelimiter>();
-            services.AddSingleton<IDelimiter, HashDelimiter>();
-            services.AddSingleton<IDelimiter, HyphenDelimiter>();
+            services.AddSingleton<IDelimiter, CommaDelimiter>(delimiter => new CommaDelimiter(5));
+            services.AddSingleton<IDelimiter, HashDelimiter>(delimiter => new HashDelimiter(4));
+            services.AddSingleton<IDelimiter, HyphenDelimiter>(delimiter => new HyphenDelimiter(6));
 
             services.AddSingleton<ICompaniesExtractor, TextFileExtractor>();
             services.AddSingleton<ICompaniesExtractor, ExcelFileExtractor>();

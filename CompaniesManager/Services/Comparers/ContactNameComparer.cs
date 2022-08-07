@@ -1,7 +1,7 @@
 ﻿using CompaniesManager.Models;
 using System.Collections.Generic;
 
-namespace CompaniesManager.Services.Sorters
+namespace CompaniesManager.Services.Comparers
 {
     public class ContactNameComparer : IComparer<Company>
     {

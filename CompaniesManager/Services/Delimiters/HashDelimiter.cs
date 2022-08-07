@@ -10,25 +10,30 @@ namespace CompaniesManager.Services.Delimiters
 
         public uint SplitLength { get; }
 
-        public HashDelimiter()
+        public HashDelimiter(uint dataToExtract)
         {
             DelimiterValue = "#";
-            SplitLength = 4;
+            SplitLength = dataToExtract;
         }
 
         public Company ExtractCompanyFrom(string line)
         {
             var lineValues = line.Split(DelimiterValue);
 
-            return new Company
+            if (lineValues.Length == SplitLength)
             {
-                Id = Guid.NewGuid(),
-                CompanyName = lineValues[0],
-                YearsInBusiness = -1,
-                YearFounded = Convert.ToInt32(lineValues[1]),
-                ContactName = lineValues[2],
-                ContactPhoneNumber = lineValues[3]
-            };
+                return new Company
+                {
+                    Id = Guid.NewGuid(),
+                    CompanyName = lineValues[0],
+                    YearsInBusiness = -1,
+                    YearFounded = Convert.ToInt32(lineValues[1]),
+                    ContactName = lineValues[2],
+                    ContactPhoneNumber = lineValues[3]
+                };
+            }
+
+            return null;
         }
 
 

@@ -1,12 +1,15 @@
 {
   "dependencies": {
+    "mssql1": {
+      "type": "mssql",
+      "connectionId": "MilestoneConnectionString"
+    },
     "secrets1": {
       "type": "secrets",
       "connectionId": "VaultUri"
     },
-    "mssql1": {
-      "type": "mssql",
-      "connectionId": "MilestoneConnectionString"
+    "secrets2": {
+      "type": "secrets"
     }
   }
 }
