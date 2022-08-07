@@ -9,6 +9,5 @@ namespace CompaniesManager.Models
         public string CurrentSorter { get; set; }
         public List<Company> Companies { get; set; }
         public List<IFormFile> Files { get; set; }
-        public IEnumerable<SelectListItem> SortMethods { get; set; }
     }
 }

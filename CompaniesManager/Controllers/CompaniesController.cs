@@ -17,7 +17,6 @@ namespace CompaniesManager.Controllers
         private readonly ApplicationDbContext _db;
         private readonly IEnumerable<IComparer<Company>> _sorters;
         private readonly IEnumerable<ICompaniesExtractor> _extractors;
-        private readonly List<SelectListItem> _sortMethods;
 
         private const string exportFileName = "Companies.csv";
 
@@ -26,15 +25,6 @@ namespace CompaniesManager.Controllers
             _db = db;
             _sorters = sorters;
             _extractors = extractors;
-
-            _sortMethods = new List<SelectListItem>();
-
-            foreach (var sorter in _sorters)
-            {
-                var sorterName = sorter.GetType().Name;
-                var sorterDisplayName = DisplayNameHelper.GetDisplayName(sorter.GetType());
-                _sortMethods.Add(new SelectListItem { Value = sorterName, Text = sorterDisplayName });
-            }
         }
 
         public async Task<IActionResult> Index()
@@ -42,7 +32,7 @@ namespace CompaniesManager.Controllers
             try
             {
                 var companies = await _db.Companies.ToListAsync();
-                return View(new CompaniesViewModel { Companies = companies, CurrentSorter = string.Empty, SortMethods = _sortMethods  });
+                return View(new CompaniesViewModel { Companies = companies, CurrentSorter = string.Empty });
             }
             catch (Exception ex)
             {
@@ -58,7 +48,7 @@ namespace CompaniesManager.Controllers
 
                 CompaniesHelper.SortCompanies(companies, _sorters, sorterName);
 
-                return View("Index", new CompaniesViewModel { Companies = companies, CurrentSorter = sorterName, SortMethods = _sortMethods });
+                return View("Index", new CompaniesViewModel { Companies = companies, CurrentSorter = sorterName });
             }
             catch (Exception ex)
             {
