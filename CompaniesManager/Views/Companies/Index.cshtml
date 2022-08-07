@@ -5,7 +5,7 @@
     <div class="col-12">
         <form enctype="multipart/form-data" asp-controller="Companies" asp-action="Import" method="post" class="mt-3">
             <div class="form-group row">
-                <div class="col-sm-12" >
+                <div class="col-sm-12">
                     <input multiple asp-for="Files" class="form-control custom-file-input" />
                     <label style="cursor:pointer;" class="custom-file-label">Choose files...</label>
                 </div>
@@ -16,11 +16,10 @@
                     <button disabled="@(Model.Files is null)" type="submit" class="btn btn-info text-white import-button" style="width:100%">Import</button>
                 </div>
 
-
                 @if (Model.Companies.Count > 0)
                 {
                     <div class="col-6">
-                        <button asp-action="Export" asp-route-comparerName="@Model.CurrentComparer" class="btn btn-info text-white" style="width:100%">Export to CSV</button>
+                        <button asp-action="Export" asp-route-sorterName="@Model.CurrentSorter" class="btn btn-info text-white" style="width:100%">Export to CSV</button>
                     </div>
                 }
 
@@ -50,9 +49,7 @@
     </div>
 </div>
 
-
 <br />
-
 
 @if (Model.Companies.Count > 0)
 {
@@ -61,13 +58,13 @@
 
         <div class="container row p-0 m-0">
             <div class="col-4">
-                <a asp-action="Sort" asp-route-comparerName="CompanyNameComparer" class="btn btn-info form-control text-white">Sort by company name</a>
+                <a asp-action="Sort" asp-route-sorterName="CompanyNameSorter" class="btn btn-info form-control text-white">Sort by company name</a>
             </div>
             <div class="col-4">
-                <a asp-action="Sort" asp-route-comparerName="ContactNameComparer" class="btn btn-info form-control text-white">Sort by contact name</a>
+                <a asp-action="Sort" asp-route-sorterName="ContactNameSorter" class="btn btn-info form-control text-white">Sort by contact name</a>
             </div>
             <div class="col-4">
-                <a asp-action="Sort" asp-route-comparerName="YearsAndNameComparer" class="btn btn-info form-control text-white">Sort by years in business and company name</a>
+                <a asp-action="Sort" asp-route-sorterName="YearsAndNameSorter" class="btn btn-info form-control text-white">Sort by years in business and company name</a>
             </div>
         </div>
 

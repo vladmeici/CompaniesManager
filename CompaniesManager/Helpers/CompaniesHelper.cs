@@ -6,13 +6,13 @@ namespace CompaniesManager.Helpers
 {
     public static class CompaniesHelper
     {
-        public static void SortCompanies(List<Company> companies,IEnumerable<IComparer<Company>> _comparers, string comparerName)
+        public static void SortCompanies(List<Company> companies,IEnumerable<IComparer<Company>> _sorters, string sorterName)
         {
-            var comparer = ComparerHelper.GetComparer(_comparers, comparerName);
+            var sorter = SorterHelper.GetSorter(_sorters, sorterName);
 
-            if (comparer != null)
+            if (sorter != null)
             {
-                companies.Sort((x, y) => comparer.Compare(x, y));
+                companies.Sort((x, y) => sorter.Compare(x, y));
             }
         }
 

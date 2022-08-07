@@ -12,6 +12,15 @@ namespace CompaniesManager.Helpers
             return obj == null ? null : GetDisplayName(obj.GetType(), propertyName);
         }
 
+        public static string GetDisplayName(Type type)
+        {
+            var attributes = type.GetCustomAttributes(typeof(DisplayNameAttribute), true);
+
+            return attributes.Length == 0
+                ? null
+                : (attributes[0] as DisplayNameAttribute)?.DisplayName;
+        }
+
         public static string GetDisplayName(Type type, string propertyName)
         {
             var property = type.GetProperty(propertyName);

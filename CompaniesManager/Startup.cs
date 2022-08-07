@@ -1,5 +1,5 @@
 using CompaniesManager.Models;
-using CompaniesManager.Services.Comparers;
+using CompaniesManager.Services.Sorters;
 using CompaniesManager.Services.Delimiters;
 using CompaniesManager.Services.FileExtractors;
 using CompaniesManager.Services.Interfaces;
@@ -34,9 +34,9 @@ namespace CompaniesManager
             services.AddSingleton<ICompaniesExtractor, TextFileExtractor>();
             services.AddSingleton<ICompaniesExtractor, ExcelFileExtractor>();
 
-            services.AddSingleton<IComparer<Company>, CompanyNameComparer>();
-            services.AddSingleton<IComparer<Company>, ContactNameComparer>();
-            services.AddSingleton<IComparer<Company>, YearsAndNameComparer>();
+            services.AddSingleton<IComparer<Company>, CompanyNameSorter>();
+            services.AddSingleton<IComparer<Company>, ContactNameSorter>();
+            services.AddSingleton<IComparer<Company>, YearsAndNameSorter>();
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
         }

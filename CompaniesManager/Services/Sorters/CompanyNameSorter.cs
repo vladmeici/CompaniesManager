@@ -1,9 +1,11 @@
 ﻿using CompaniesManager.Models;
 using System.Collections.Generic;
+using System.ComponentModel;
 
-namespace CompaniesManager.Services.Comparers
+namespace CompaniesManager.Services.Sorters
 {
-    public class CompanyNameComparer : IComparer<Company>
+    [DisplayName("Sort by company name")]
+    public class CompanyNameSorter : IComparer<Company>
     {
         public int Compare(Company x, Company y)
         {

@@ -1,10 +1,10 @@
 ﻿using CompaniesManager.Models;
-using CompaniesManager.Services.Comparers;
+using CompaniesManager.Services.Sorters;
 using NUnit.Framework;
 
 namespace CompaniesTest
 {
-    internal class ComparersTest
+    internal class SortersTest
     {
         [SetUp]
         public void Setup()
@@ -15,10 +15,10 @@ namespace CompaniesTest
         [TestCase("Apple", " Samsung", -1)]
         [TestCase(" LG ", " Bosh", 1)]
         [TestCase(" Huawei", "Huawei", 0)]
-        public void TestCompanyNameComparer(string companyAName, string companyBName, int expected)
+        public void TestCompanyNameSorter(string companyAName, string companyBName, int expected)
         {
             // Arrange
-            var companyNameComparer = new CompanyNameComparer();
+            var companyNameSorter= new CompanyNameSorter();
             var companyA = new Company
             {
                 CompanyName = companyAName
@@ -29,7 +29,7 @@ namespace CompaniesTest
             };
 
             // Act
-            var compareResult = companyNameComparer.Compare(companyA, companyB);
+            var compareResult = companyNameSorter.Compare(companyA, companyB);
 
             // Assert
             Assert.AreEqual(expected, compareResult);
@@ -39,10 +39,10 @@ namespace CompaniesTest
         [TestCase("Apple", 20, " Samsung", 10, -1)]
         [TestCase("LG", 10, " Bosh", 20, 1)]
         [TestCase(" Huawei", 20, "Huawei", 20, 0)]
-        public void TestYearsAndNameComparer(string companyAName, int companyAYearsInBusiness, string companyBName, int companyBYearsInBusiness, int expected)
+        public void TestYearsAndNameSorter(string companyAName, int companyAYearsInBusiness, string companyBName, int companyBYearsInBusiness, int expected)
         {
             // Arrange
-            var companyNameComparer = new CompanyNameComparer();
+            var companyNameSorter = new CompanyNameSorter();
             var companyA = new Company
             {
                 YearsInBusiness = companyAYearsInBusiness,
@@ -55,7 +55,7 @@ namespace CompaniesTest
             };
 
             // Act
-            var compareResult = companyNameComparer.Compare(companyA, companyB);
+            var compareResult = companyNameSorter.Compare(companyA, companyB);
 
             // Assert
             Assert.AreEqual(expected, compareResult);

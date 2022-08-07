@@ -1,6 +1,6 @@
 ﻿using CompaniesManager.Helpers;
 using CompaniesManager.Models;
-using CompaniesManager.Services.Comparers;
+using CompaniesManager.Services.Sorters;
 using CompaniesManager.Services.Delimiters;
 using CompaniesManager.Services.FileExtractors;
 using CompaniesManager.Services.Interfaces;
@@ -14,7 +14,7 @@ namespace CompaniesTest
     {
         private List<IDelimiter> delimiters;
         private List<Company> companies;
-        private List<IComparer<Company>> comparers;
+        private List<IComparer<Company>> sorters;
 
         [SetUp]
         public void Setup()
@@ -34,11 +34,11 @@ namespace CompaniesTest
                 new Company { Id = Guid.NewGuid(), CompanyName = "Company D", ContactEmail = "companyD@email.com", ContactName = "C Dan", ContactPhoneNumber = "004", YearFounded = 2005, YearsInBusiness = 5 }
             };
 
-            comparers = new List<IComparer<Company>>
+            sorters = new List<IComparer<Company>>
             {
-                new CompanyNameComparer(),
-                new ContactNameComparer(),
-                new YearsAndNameComparer()
+                new CompanyNameSorter(),
+                new ContactNameSorter(),
+                new YearsAndNameSorter()
             };
         }
 
@@ -82,32 +82,32 @@ namespace CompaniesTest
         }
 
         [Test]
-        [TestCase("CompanyNameComparer", true)]
-        [TestCase("ContactNameComparer", true)]
-        [TestCase("YearsAndNameComparer", true)]
-        [TestCase("AnotherTypeOfComparer", false)]
+        [TestCase("CompanyNameSorter", true)]
+        [TestCase("ContactNameSorter", true)]
+        [TestCase("YearsAndNameSorter", true)]
+        [TestCase("AnotherTypeOfSorter", false)]
         [TestCase("", false)]
-        public void TestComparerHelper(string comparerName, bool expected)
+        public void TestSorterHelper(string sorterName, bool expected)
         {
             // Arrange
 
             // Act
-            var comparer = ComparerHelper.GetComparer(comparers, comparerName);
+            var sorter = SorterHelper.GetSorter(sorters, sorterName);
 
             // Assert
-            Assert.AreEqual(expected, comparer != null);
+            Assert.AreEqual(expected, sorter != null);
         }
 
         [Test]
-        [TestCase("CompanyNameComparer", "Company A", "Company D")]
-        [TestCase("ContactNameComparer", "Company C", "Company B")]
-        [TestCase("YearsAndNameComparer", "Company B", "Company D")]
-        public void TestCompaniesSortHelper(string comparerName, string firstCompanyName, string lastCompanyName)
+        [TestCase("CompanyNameSorter", "Company A", "Company D")]
+        [TestCase("ContactNameSorter", "Company C", "Company B")]
+        [TestCase("YearsAndNameSorter", "Company B", "Company D")]
+        public void TestCompaniesSortHelper(string sorterName, string firstCompanyName, string lastCompanyName)
         {
             // Arrange
 
             // Act
-            CompaniesHelper.SortCompanies(companies, comparers, comparerName);
+            CompaniesHelper.SortCompanies(companies, sorters, sorterName);
 
             // Assert
             Assert.AreEqual(companies[0].CompanyName, firstCompanyName);
