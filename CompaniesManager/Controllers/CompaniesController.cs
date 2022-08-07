@@ -17,6 +17,8 @@ namespace CompaniesManager.Controllers
         private readonly IEnumerable<IComparer<Company>> _comparers;
         private readonly IEnumerable<ICompaniesExtractor> _extractors;
 
+        private const string exportFileName = "Companies.csv";
+
         public CompaniesController(ApplicationDbContext db, IEnumerable<IComparer<Company>> comparers, IEnumerable<ICompaniesExtractor> extractors)
         {
             _db = db;
@@ -26,36 +28,57 @@ namespace CompaniesManager.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var companies = await _db.Companies.ToListAsync();
-            return View(new CompaniesViewModel { Companies = companies, CurrentComparer = string.Empty });
+            try
+            {
+                var companies = await _db.Companies.ToListAsync();
+                return View(new CompaniesViewModel { Companies = companies, CurrentComparer = string.Empty });
+            }
+            catch (Exception ex)
+            {
+                return View("Error", new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier, ErrorMessage = ex.Message });
+            }
         }
 
         public async Task<IActionResult> Sort(string comparerName)
         {
-            var companies = await _db.Companies.ToListAsync();
+            try
+            {
+                var companies = await _db.Companies.ToListAsync();
 
-            CompaniesHelper.SortCompanies(companies, _comparers, comparerName);
-            ViewData["currentSort"] = comparerName;
+                CompaniesHelper.SortCompanies(companies, _comparers, comparerName);
+                ViewData["currentSort"] = comparerName;
 
-            return View("Index", new CompaniesViewModel { Companies = companies, CurrentComparer = comparerName });
+                return View("Index", new CompaniesViewModel { Companies = companies, CurrentComparer = comparerName });
+            }
+            catch (Exception ex)
+            {
+                return View("Error", new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier, ErrorMessage = ex.Message });
+            }
         }
 
-        public async Task<FileResult> Export(string comparerName)
+        public async Task<IActionResult> Export(string comparerName)
         {
-            var companies = await _db.Companies.ToListAsync();
-
-            if (!string.IsNullOrEmpty(comparerName))
+            try
             {
-                CompaniesHelper.SortCompanies(companies, _comparers, comparerName);
+                var companies = await _db.Companies.ToListAsync();
+
+                if (!string.IsNullOrEmpty(comparerName))
+                {
+                    CompaniesHelper.SortCompanies(companies, _comparers, comparerName);
+                }
+
+                var exportedString = CompaniesHelper.ExportCompaniesToCsv(companies);
+
+                return File(Encoding.UTF8.GetBytes(exportedString), "text/csv", exportFileName);
             }
-
-            var exportedString = CompaniesHelper.ExportCompaniesToCsv(companies);
-
-            return File(Encoding.UTF8.GetBytes(exportedString), "text/csv", "Companies.csv");
+            catch (Exception ex)
+            {
+                return View("Error", new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier, ErrorMessage = ex.Message });
+            }
         }
 
         [HttpPost]
-        public IActionResult Import(ImportViewModel model)
+        public IActionResult Import(CompaniesViewModel model)
         {
             try
             {

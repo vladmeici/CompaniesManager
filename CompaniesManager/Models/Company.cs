@@ -8,6 +8,7 @@ namespace CompaniesManager.Models
     {
         [Key]
         public Guid Id { get; set; }
+
         [Required]
         [DisplayName("Company name")]
         public string CompanyName { get; set; }
@@ -26,10 +27,5 @@ namespace CompaniesManager.Models
 
         [DisplayName("Year founded")]
         public int YearFounded { get; set; }
-
-        public override string ToString()
-        {
-            return $"{CompanyName}, {YearsInBusiness}, {ContactName}, {ContactPhoneNumber}, {ContactEmail}";
-        }
     }
 }

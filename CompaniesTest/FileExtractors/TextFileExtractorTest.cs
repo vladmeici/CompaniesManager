@@ -13,6 +13,8 @@ namespace CompaniesTest.FileExtractors
         private List<IDelimiter> delimiters;
         private TextFileExtractor extractor;
 
+        private const string testDataFolderPath = @"..\..\..\TestData";
+
         [SetUp]
         public void Setup()
         {
@@ -51,7 +53,7 @@ namespace CompaniesTest.FileExtractors
         public void TestExtractCompaniesFromFile(string fileName, int expected)
         {
             // Arrange
-            string filePath = Path.Combine(@"..\..\..\TestData", fileName);
+            string filePath = Path.Combine(testDataFolderPath, fileName);
             using var stream = File.OpenRead(filePath);
             var file = new FormFile(stream, 0, stream.Length, null, Path.GetFileName(stream.Name))
             {
